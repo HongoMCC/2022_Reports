@@ -6,6 +6,11 @@
 *.ppt
 *.pptx
 
+## Google Documents files:
+*.gdoc
+*.gsheet
+*.gslides
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
