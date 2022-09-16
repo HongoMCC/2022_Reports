@@ -1,0 +1,94 @@
+\documentclass{jsarticle}
+\usepackage[margin=2.54truecm]{geometry}
+
+\title{セルオートマトン}
+\author{ctes091x}
+
+\begin{document}
+\maketitle
+
+\section{はじめに}
+はじめまして\footnote{ここでは世間一般で通用する挨拶を用いましたが、マイコン部では「グッドモルニッヒ!」という挨拶が主に用いられています。}。本郷高校マイコン部のctes091xです。本稿では、簡単な規則から豊かな結果を得ることのできる数理モデルのひとつである\emph{セルオートマトン}について解説します。
+
+\section{例}
+セルオートマトンの簡単な例として、人が細い通路を1列になって進む状況の再現を考えてみます。
+
+初めに、細い通路を表現するものとして、多数のセルを1列に並べたものを用意します。各セルは0と1の2状態をとり、状態0をそのセルに人がいない状態、1を人がいる状態に対応させることとします。
+
+次に、セルの状態遷移の規則を考えます。ここでは人が左から右へ進んでいくこととします。細い通路を進む際、前に十分なスペースが無ければ前に進むことはできません。よって自身が状態1を取っているときには、右のセルが空いている、すなわち状態0を取っているときのみ右に移動して状態0に遷移することとします[表\ref{table:rule184-1}]。
+
+\begin{table}[hbtp]
+    \caption{セルの状態変化のルールの一部(前が空いているときのみ進める)}
+    \label{table:rule184-1}
+    \centering
+    \begin{tabular}{|ccc|c|}
+        \hline
+        左 & 自身 & 右 & 次の状態\\
+        \hline
+        0 & 1 & 0 & 0\\
+        1 & 1 & 0 & 0\\
+        0 & 1 & 1 & 1\\
+        1 & 1 & 1 & 1\\
+        \hline
+    \end{tabular}
+\end{table}
+
+また左側のセルから自身に人が移動してくることも考えられます。左のセルが状態1を取っている場合は、自身が状態0を取っているときのみ左から移動してくることができます[表\ref{table:rule184-2}]。
+
+\begin{table}[hbtp]
+    \caption{セルの状態変化のルールの一部(自身が空いているときのみ左から進める)}
+    \label{table:rule184-2}
+    \centering
+    \begin{tabular}{|ccc|c|}
+        \hline
+        左 & 自身 & 右 & 次の状態\\
+        \hline
+        1 & 1 & 0 & 0\\
+        1 & 0 & 0 & 1\\
+        1 & 0 & 1 & 1\\
+        1 & 1 & 1 & 1\\
+        \hline
+    \end{tabular}
+\end{table}
+
+また左側が状態0を取るときは自身に人が移動してくることはありません[表\ref{table:rule184-3}]。
+
+\begin{table}[hbtp]
+    \caption{セルの状態変化のルールの一部(空いているセルから人は移動してこない)}
+    \label{table:rule184-3}
+    \centering
+    \begin{tabular}{|ccc|c|}
+        \hline
+        左 & 自身 & 右 & 次の状態\\
+        \hline
+        0 & 0 & 0 & 0\\
+        0 & 0 & 1 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 1 & 1 & 1\\
+        \hline
+    \end{tabular}
+\end{table}
+
+ここまでで全ての3つ組セルの取る状態とその状態遷移を網羅できました[表\ref{table:rule184}]。
+
+\begin{table}[hbtp]
+    \caption{セルの状態変化のルール全体}
+    \label{table:rule184}
+    \centering
+    \begin{tabular}{|ccc|c|}
+        \hline
+        左 & 自身 & 右 & 次の状態\\
+        \hline
+        0 & 0 & 0 & 0\\%
+        0 & 0 & 1 & 0\\%
+        0 & 1 & 0 & 0\\%
+        0 & 1 & 1 & 1\\%
+        1 & 0 & 0 & 1\\%
+        1 & 0 & 1 & 1\\%
+        1 & 1 & 0 & 0\\%%
+        1 & 1 & 1 & 1\\%%
+        \hline
+    \end{tabular}
+\end{table}
+
+\end{document}
